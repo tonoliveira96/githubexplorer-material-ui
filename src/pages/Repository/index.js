@@ -24,27 +24,18 @@ import api from "../../api/services";
 function Repository() {
   const [repository, setRepository] = useState();
   const [issues, setIssues] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
 
   const { params } = useRouteMatch();
 
-  async function getData() {
-    if (!hasMore) {
-      return;
-    }
-    await api.get(`repos/${params.repository}`).then((response) => {
+  useEffect(() => {
+    api.get(`repos/${params.repository}`).then((response) => {
       //const repo = response.data;
       setRepository(response.data);
     });
 
-    await api.get(`repos/${params.repository}/issues`).then((response) => {
+    api.get(`repos/${params.repository}/issues`).then((response) => {
       setIssues(response.data);
     });
-    setHasMore(false);
-  }
-  useEffect(() => {
-    getData();
-    console.log(repository);
   }, [params.repository]);
 
   const theme = createTheme({});
@@ -68,17 +59,19 @@ function Repository() {
               />
             </Grid>
             <Grid item xs={4}>
-              <ListItemIcon>
-                <FourKRounded /> {repository.forks_count}
-              </ListItemIcon>
+              <ListItem>
+                <b>Forks:</b> {repository.forks_count}
+              </ListItem>
             </Grid>
             <Grid item xs={4}>
-              <ListItemIcon title="teste">
-                <Star /> {repository.stargazers_count}
-              </ListItemIcon>
+              <ListItem>
+                <b>Stars:</b> {repository.stargazers_count}
+              </ListItem>
             </Grid>
             <Grid item xs={4}>
-              <ListItemIcon></ListItemIcon>
+              <ListItem>
+                <b>Issues:</b> {repository.open_issues_count}
+              </ListItem>
             </Grid>
           </Grid>
         )}
