@@ -12,10 +12,9 @@ import {
   Divider,
   Avatar,
   Link,
-  ListItemIcon,
 } from "@material-ui/core";
 
-import { ArrowRight, FourKRounded, Star } from "@material-ui/icons";
+import { ArrowRight } from "@material-ui/icons";
 
 import { ThemeProvider, createTheme } from "@material-ui/core/styles";
 
